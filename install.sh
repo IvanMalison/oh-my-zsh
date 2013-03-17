@@ -1,3 +1,4 @@
+cd "$(dirname "${BASH_SOURCE}")"
 if [ -d ~/.oh-my-zsh ]
 then
     if [ "$1" == "--force" -o "$1" == "-f" ]; then
@@ -8,10 +9,12 @@ then
     fi
 fi
 
-mkdir .oh-my-zsh
-rsync . ~/.oh-my-zsh
+mkdir ~/.oh-my-zsh
+rsync -r --exclude .git . ~/.oh-my-zsh
 cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 # We put /usr/local/bin first so that binaries installed from brew take precedence over
 # system binaries.
-echo 'export PATH=/usr/local/bin:`echo $PATH | sed "s|:*/usr/local/bin||" | sed "s|$:||"`' >> ~/.zshrc
+NEW_PATH=/usr/local/bin:`echo $PATH | sed "s|:*/usr/local/bin||" | sed "s|^:||"`
+echo $NEW_PATH
+echo "export PATH=$NEW_PATH" >> ~/.zshrc
 chsh -s `which zsh`
