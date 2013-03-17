@@ -1,38 +1,17 @@
 if [ -d ~/.oh-my-zsh ]
 then
-  echo "\033[0;33mYou already have Oh My Zsh installed.\033[0m You'll need to remove ~/.oh-my-zsh if you want to install"
-  exit
+    if [ "$1" == "--force" -o "$1" == "-f" ]; then
+	rm -rf ~/.oh-my-zsh
+    else
+	echo "\033[0;33mYou already have Oh My Zsh installed.\033[0m You'll need to remove ~/.oh-my-zsh if you want to install"
+	exit
+    fi
 fi
 
-echo "\033[0;34mCloning Oh My Zsh...\033[0m"
-hash git >/dev/null && /usr/bin/env git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh || {
-  echo "git not installed"
-  exit
-}
-
-echo "\033[0;34mLooking for an existing zsh config...\033[0m"
-if [ -f ~/.zshrc ] || [ -h ~/.zshrc ]
-then
-  echo "\033[0;33mFound ~/.zshrc.\033[0m \033[0;32mBacking up to ~/.zshrc.pre-oh-my-zsh\033[0m";
-  mv ~/.zshrc ~/.zshrc.pre-oh-my-zsh;
-fi
-
-echo "\033[0;34mUsing the Oh My Zsh template file and adding it to ~/.zshrc\033[0m"
+mkdir .oh-my-zsh
+rsync . ~/.oh-my-zsh
 cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
-
-echo "\033[0;34mCopying your current PATH and adding it to the end of ~/.zshrc for you.\033[0m"
-echo "export PATH=$PATH" >> ~/.zshrc
-
-echo "\033[0;34mTime to change your default shell to zsh!\033[0m"
+# We put /usr/local/bin first so that binaries installed from brew take precedence over
+# system binaries.
+echo 'export PATH=/usr/local/bin:`echo $PATH | sed "s|:*/usr/local/bin||" | sed "s|$:||"`' >> ~/.zshrc
 chsh -s `which zsh`
-
-echo "\033[0;32m"'         __                                     __   '"\033[0m"
-echo "\033[0;32m"'  ____  / /_     ____ ___  __  __   ____  _____/ /_  '"\033[0m"
-echo "\033[0;32m"' / __ \/ __ \   / __ `__ \/ / / /  /_  / / ___/ __ \ '"\033[0m"
-echo "\033[0;32m"'/ /_/ / / / /  / / / / / / /_/ /    / /_(__  ) / / / '"\033[0m"
-echo "\033[0;32m"'\____/_/ /_/  /_/ /_/ /_/\__, /    /___/____/_/ /_/  '"\033[0m"
-echo "\033[0;32m"'                        /____/                       '"\033[0m"
-
-echo "\n\n \033[0;32m....is now installed.\033[0m"
-/usr/bin/env zsh
-source ~/.zshrc
