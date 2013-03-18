@@ -17,5 +17,5 @@ cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 NEW_PATH=/usr/local/bin:`echo $PATH | sed "s|:*/usr/local/bin||" | sed "s|^:||"`
 echo $NEW_PATH
 echo "
-export PATH=$NEW_PATH" >> ~/.zshrc
+export PATH=$NEW_PATH" >> ~/.path
 chsh -s `which zsh`
