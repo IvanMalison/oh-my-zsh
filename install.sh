@@ -12,10 +12,4 @@ fi
 mkdir ~/.oh-my-zsh
 rsync -r --exclude .git . ~/.oh-my-zsh
 cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
-# We put /usr/local/bin first so that binaries installed from brew take precedence over
-# system binaries.
-NEW_PATH=/usr/local/bin:`echo $PATH | sed "s|:*/usr/local/bin||" | sed "s|^:||"`
-echo $NEW_PATH
-echo "
-export PATH=$NEW_PATH" >> ~/.path
 chsh -s `which zsh`
