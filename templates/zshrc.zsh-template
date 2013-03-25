@@ -41,3 +41,9 @@ fpath=(~/completions $fpath)
 # compsys initialization
 autoload -U compinit
 compinit
+
+hash rvm 2> /dev/null && {
+    rvm reload > /dev/null
+    rvm env | source /dev/stdin
+}
+
