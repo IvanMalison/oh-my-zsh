@@ -11,5 +11,4 @@ fi
 
 mkdir ~/.oh-my-zsh
 rsync -r --exclude .git . ~/.oh-my-zsh
-cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 chsh -s `which zsh`
